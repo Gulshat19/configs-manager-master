@@ -16,24 +16,31 @@ const AddTabIconButton = styled(IconButton)(({ theme }) => ({
     marginLeft: '10px',
     boxShadow: 'rgba(0, 0, 0, 0.35) 0px 2px 5px;',
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
+    '&:hover': {
+        backgroundColor: theme.palette.primary.dark,
+        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 2px 10px;'
+    }
 }));
 
 
 const TabAdd = (props: any) => {
-    const { tabs, setTabs } = props;
-    const [tabName, setTabName] = useState('');
+    const { setConfigure, configure } = props;
+    const [sectionName, setSectionName] = useState('');
 
     const handleTabChange = (e: any) => {
-        setTabName(e.target.value);
+        setSectionName(e.target.value);
     }
 
-    const addTab = (name: string) => {
-        const newTab = {
+    const addSection = (name: string) => {
+        const newSection = {
             _id: uuidv4(),
             name,
+            fields: []
         }
-        setTabs([...tabs, newTab]);
+        setConfigure({
+            sections: [...configure.sections, newSection]
+        });
     }
 
     return (
@@ -67,7 +74,7 @@ const TabAdd = (props: any) => {
                         />
                         <AddTabButton
                             variant="contained"
-                            onClick={() => addTab(tabName)}
+                            onClick={() => addSection(sectionName)}
                         >
                             Add
                         </AddTabButton>

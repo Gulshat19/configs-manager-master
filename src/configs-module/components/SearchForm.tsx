@@ -1,4 +1,4 @@
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import { alpha, styled, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -8,7 +8,7 @@ const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.primary.dark, 1),
     '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.dark, 0.8),
+        backgroundColor: alpha(theme.palette.primary.dark, 0.75),
     },
     marginLeft: 0,
     width: '20%',
@@ -33,6 +33,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
+const Header = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 0px 15px',
+    p: 2,
+    bgcolor: 'primary.main',
+}
+
 const SearchForm = (props: { handleUpdateSearch: any }) => {
 
     const handleUpdateSearch = (e: any) => {
@@ -40,15 +50,7 @@ const SearchForm = (props: { handleUpdateSearch: any }) => {
     }
 
     return (
-        <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            width: '100%',
-            boxShadow: 'rgba(0, 0, 0, 0.35) 0px 0px 15px',
-            p: 2,
-            bgcolor: '#1976d2'
-        }}>
+        <Box sx={Header}>
             <Search onChange={handleUpdateSearch}>
                 <SearchIconWrapper>
                     <SearchIcon />
@@ -58,10 +60,7 @@ const SearchForm = (props: { handleUpdateSearch: any }) => {
                     inputProps={{ 'aria-label': 'search' }}
                 />
             </Search>
-            <Typography
-                variant="h5"
-                color='common.white'
-            >
+            <Typography variant="h5" color='common.white'>
                 Configuration Manager
             </Typography>
         </Box>

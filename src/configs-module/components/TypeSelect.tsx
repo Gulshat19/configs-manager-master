@@ -6,7 +6,8 @@ import Select from '@mui/material/Select';
 
 import types from './data/types';
 
-export default function TypeSelect(props: { type: any, onTypeChange: any }) {
+export default function TypeSelect(props: any) {
+    const { type, onTypeChange } = props;
 
     const menuTypes = types.map((item, i) => {
         return <MenuItem value={item.type} key={i}>{item.type}</MenuItem>
@@ -19,9 +20,10 @@ export default function TypeSelect(props: { type: any, onTypeChange: any }) {
                     Select field type
                 </InputLabel>
                 <Select
-                    value={props.type}
-                    label="Select configuration type"
-                    onChange={props.onTypeChange}
+                    value={type}
+                    label="Select field ty."
+                    required
+                    onChange={onTypeChange}
                 >
                     {menuTypes}
                 </Select>

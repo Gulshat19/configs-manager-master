@@ -2,22 +2,44 @@ import { useState } from 'react';
 import CreateForm from './CreateForm';
 import SearchForm from './SearchForm';
 import TabList from './TabList';
-import Fields from './Fields';
+import Section from './Section';
 import { v4 as uuidv4 } from 'uuid';
 import './style/Manager.css';
+import { Typography, styled } from '@mui/material';
+import { Container } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
+const NoSectionsContainer = styled(Container)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '125ch',
+  height: '50ch',
+  borderRadius: '15px',
+  margin: '0 10px',
+  boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;'
+}))
+
+const NoSectionsText = styled(Typography)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}))
+
+const MiniAddIcon = styled(AddIcon)(({ theme }) => ({
+  fontSize: 23,
+  padding: '3px',
+  backgroundColor: theme.palette.primary.main,
+  color: 'white',
+  borderRadius: 20,
+  margin: '0 6px'
+}))
 
 const Manager = (props: any) => {
   const { config } = props;
-  const [tabs, setTabs] = useState(config.sections);
   const [tabValue, setTabValue] = useState(0);
   const [term, setTerm] = useState('');
-  const [fields, setFields] = useState(tabs.map((t: any) => t.fields));
-
-  console.log(fields);
-
-  const deleteField = (_id: string) => {
-    setFields(fields.filter((f: any) => f._id !== _id))
-  }
+  const [configure, setConfigure] = useState(config);
 
   const addField = (name: string, value: any, type: string) => {
     const newItem = {
@@ -26,35 +48,18 @@ const Manager = (props: any) => {
       value,
       type
     }
-    const newArr = [...fields, newItem]
-    setFields(newArr);
+    const newArr = [...configure.sections[tabValue].fields, newItem]
+
+    setConfigure((prevState: any) => {
+      const newState = { ...prevState };
+      newState.sections[tabValue] = newArr;
+      return newState
+    });
   }
 
   const handleUpdateSearch = (term: string) => {
     setTerm(term);
   }
-
-  const onChangeProp = (_id: string, prop: any, value: any) => {
-    setFields(
-      fields.map((f: any) => {
-        if (f._id === _id) {
-          return { ...f, [prop]: value }
-        }
-        return f;
-      }))
-  }
-
-  const searchConfig = (items: any, term: any) => {
-    if (term.length === 0) {
-      return items;
-    }
-
-    return items.filter((item: any) => {
-      return item.name.indexOf(term) > -1
-    })
-  }
-
-  const visibleData = searchConfig(fields, term);
 
   return (
     <div className="App">
@@ -63,19 +68,27 @@ const Manager = (props: any) => {
       <TabList
         tabValue={tabValue}
         setTabValue={setTabValue}
-        config={config}
-        tabs={tabs}
-        setTabs={setTabs}
+        configure={configure}
+        setConfigure={setConfigure}
+      />
+      {configure.sections.length !== 0 ? configure.sections.map((s: any, i: any) => {
+        return (
+          <>
+            {tabValue === i && <Section
+              {...s}
+              term={term}
+              tabValue={tabValue}
+              configure={configure}
+              setConfigure={setConfigure}
+            />}
+          </>
+        )
+      }) : <NoSectionsContainer>
+        <NoSectionsText variant="overline">
+          Click on the {<MiniAddIcon />} button to add the first section
+        </NoSectionsText>
+      </NoSectionsContainer>}
 
-      />
-      <Fields
-        fields={fields}
-        data={visibleData}
-        tabValue={tabValue}
-        onDelete={deleteField}
-        onChangeProp={onChangeProp}
-        tabs={tabs}
-      />
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import './style/CreateForm.css';
 
-
 const FormTextField = styled(TextField)(({ theme }) => ({
     width: '35ch'
 }));
@@ -18,8 +17,7 @@ const FormButton = styled(Button)(({ theme }) => ({
     width: '40ch'
 }))
 
-
-const CreateForm = ({ onAdd }: { onAdd: Function }) => {
+const CreateForm = ({ onAdd }: { onAdd: any }) => {
     const [name, setName] = useState('');
     const [value, setValue] = useState('');
     const [type, setType] = useState('');
@@ -35,6 +33,20 @@ const CreateForm = ({ onAdd }: { onAdd: Function }) => {
         setValue('');
     }
 
+    const setInputProp = () => {
+        switch (type) {
+            case 'string':
+                return 'string'
+            case 'number':
+                return 'number'
+            case 'Date':
+                return 'Date'
+            default:
+        }
+    }
+
+    const inputProp = setInputProp();
+
     return (
         <form className='create-form' onSubmit={onSubmit}>
             <FormTypography variant="h6">
@@ -44,20 +56,22 @@ const CreateForm = ({ onAdd }: { onAdd: Function }) => {
             <FormTextField
                 label="Field name"
                 variant="outlined"
+                required
+                autoComplete='off'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
             />
             <FormTextField
-                label="Field value"
+                label={type === "Date" ? "" : "Field value"}
                 variant="outlined"
+                required
+                autoComplete='off'
                 value={value}
+                inputProps={{ type: inputProp }}
                 onChange={(e) => setValue(e.target.value)}
             />
             <TypeSelect type={type} onTypeChange={onTypeChange} />
-            <FormButton
-                variant='contained'
-                type='submit'
-            >
+            <FormButton variant='contained' type='submit' >
                 Create
             </FormButton>
         </form>
