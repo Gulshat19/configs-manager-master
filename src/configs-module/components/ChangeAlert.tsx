@@ -5,8 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Collapse from '@mui/material/Collapse';
 
 
-const ChangeAlert = (props: any) => {
-    const { open, setOpen } = props;
+const ChangeAlert = ({ open, setOpen }: { open: boolean, setOpen: Function }) => {
 
     return (
         <Collapse in={open} sx={{ position: 'absolute', bottom: '0.5ch' }}>

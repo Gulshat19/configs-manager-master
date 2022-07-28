@@ -3,8 +3,7 @@ import { useState } from 'react';
 import types from './data/types';
 import ChangeAlert from './ChangeAlert';
 
-const Field = (props: any) => {
-    const { name, value, type, onDelete, onChangeProp } = props;
+const Field = ({ name, value, type, onDelete, onChangeProp }: { name: string, value: any, type: string, onDelete: React.ReactEventHandler, onChangeProp: Function }) => {
     const [open, setOpen] = useState(false);
 
     const setInputType = () => {

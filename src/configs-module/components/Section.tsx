@@ -34,13 +34,12 @@ const StyledTableHead = styled(TableHead)(({ theme }) => ({
     borderBottom: `5px solid ${theme.palette.primary.dark}`
 }));
 
-const Section = (props: any) => {
-    const { fields, term, configure, setConfigure, tabValue } = props;
+const Section = ({ fields, term }: { fields: Field[], term: string }) => {
     const [customFields, setCustomFields] = useState(fields);
 
-    const onChangeProp = (_id: string, prop: any, value: any) => {
+    const onChangeProp = (_id: string, prop: string, value: any) => {
         setCustomFields(
-            customFields.map((f: any) => {
+            customFields.map((f: Field) => {
                 if (f._id === _id) {
                     return { ...f, [prop]: value }
                 }
@@ -49,22 +48,22 @@ const Section = (props: any) => {
     }
 
     const onDelete = (_id: string) => {
-        setCustomFields(customFields.filter((f: any) => f._id !== _id));
+        setCustomFields(customFields.filter((f: Field) => f._id !== _id));
     }
 
-    const searchConfig = (items: any, term: any) => {
+    const searchConfig = (items: Field[], term: string) => {
         if (term.length === 0) {
             return items;
         }
 
-        return items.filter((item: any) => {
-            return item.name.toLowerCase().indexOf(term) > -1
+        return items.filter((item: Field) => {
+            return item.name.indexOf(term) > -1
         })
     }
 
     const visibleData = searchConfig(customFields, term);
 
-    const elements = visibleData.map((f: any) => {
+    const elements = visibleData.map((f: Field) => {
         const { _id, ...itemProps } = f;
         return (
             <Field

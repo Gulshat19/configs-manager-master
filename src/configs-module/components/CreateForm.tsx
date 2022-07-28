@@ -17,16 +17,16 @@ const FormButton = styled(Button)(({ theme }) => ({
     width: '40ch'
 }))
 
-const CreateForm = ({ onAdd }: { onAdd: any }) => {
+const CreateForm = ({ onAdd }: { onAdd: Function }) => {
     const [name, setName] = useState('');
     const [value, setValue] = useState('');
     const [type, setType] = useState('');
 
-    const onTypeChange = (e: any) => {
+    const onTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setType(e.target.value);
     };
 
-    const onSubmit = (e: any) => {
+    const onSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         onAdd(name, value, type);
         setName('');

@@ -31,10 +31,9 @@ const TabsContainer = {
     color: 'primary.dark'
 }
 
-const TabList = (props: any) => {
-    const { tabValue, setTabValue, setConfigure, configure } = props;
+const TabList = ({ tabValue, setTabValue, setConfigure, configure }: { tabValue: number, setTabValue: Function, setConfigure: Function, configure: Config }) => {
 
-    const handleChange = (event: React.SyntheticEvent, newValue: any) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
     };
 
@@ -48,16 +47,16 @@ const TabList = (props: any) => {
                     scrollButtons="auto"
                     TabIndicatorProps={{ style: { background: 'white' } }}
                 >
-                    {configure.sections.length !== 0 ? configure.sections.map((t: any, i: any) => {
+                    {configure.sections.length !== 0 ? configure.sections.map((s: Section, i: number) => {
                         return <StyledTab
                             key={i}
-                            label={t.name}
+                            label={s.name}
                         />
                     }) : <StyledTab label='No sections' sx={{ width: 250 }} />}
                 </Tabs>
             </Box>
             <TabAdd configure={configure} setConfigure={setConfigure} />
-            <TabEdit configure={configure} setConfigure={setConfigure} tabValue={tabValue} />
+            <TabEdit configure={configure} setConfigure={setConfigure} />
         </Box>
 
     );

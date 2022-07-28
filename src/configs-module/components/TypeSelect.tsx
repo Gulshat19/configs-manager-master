@@ -6,8 +6,7 @@ import Select from '@mui/material/Select';
 
 import types from './data/types';
 
-export default function TypeSelect(props: any) {
-    const { type, onTypeChange } = props;
+export default function TypeSelect({ type, onTypeChange }: { type: string, onTypeChange: any }) {
 
     const menuTypes = types.map((item, i) => {
         return <MenuItem value={item.type} key={i}>{item.type}</MenuItem>

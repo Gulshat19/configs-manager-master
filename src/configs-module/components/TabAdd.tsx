@@ -24,11 +24,10 @@ const AddTabIconButton = styled(IconButton)(({ theme }) => ({
 }));
 
 
-const TabAdd = (props: any) => {
-    const { setConfigure, configure } = props;
+const TabAdd = ({ setConfigure, configure }: { setConfigure: Function, configure: Config }) => {
     const [sectionName, setSectionName] = useState('');
 
-    const handleTabChange = (e: any) => {
+    const handleTabChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSectionName(e.target.value);
     }
 

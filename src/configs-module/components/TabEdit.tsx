@@ -29,15 +29,14 @@ const EditTabIconButton = styled(IconButton)(({ theme }) => ({
     }
 }));
 
-const TabEdit = (props: any) => {
-    const { configure, setConfigure } = props;
+const TabEdit = ({ setConfigure, configure }: { setConfigure: Function, configure: Config }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const deleteTab = (name: string) => {
         setConfigure({
-            sections: configure.sections.filter((s: any) => s.name !== name)
+            sections: configure.sections.filter((s: Section) => s.name !== name)
         })
         handleClose();
     }
@@ -68,7 +67,7 @@ const TabEdit = (props: any) => {
                             Click to edit section name
                         </PopoverText>
                         <List sx={ListStyle} component="nav">
-                            {configure.sections.map((s: any) => {
+                            {configure.sections.map((s: Section) => {
                                 return (
                                     <Box key={s.name}>
                                         <ListItem>

@@ -50,10 +50,10 @@ const Manager = (props: any) => {
     }
     const newArr = [...configure.sections[tabValue].fields, newItem]
 
-    setConfigure((prevState: any) => {
+    setConfigure((prevState: Config) => {
       const newState = { ...prevState };
-      newState.sections[tabValue] = newArr;
-      return newState
+      newState.sections[tabValue].fields = newArr;
+      return newState;
     });
   }
 
@@ -63,7 +63,11 @@ const Manager = (props: any) => {
 
   return (
     <div className="App">
-      <SearchForm handleUpdateSearch={handleUpdateSearch} />
+      <SearchForm
+        handleUpdateSearch={handleUpdateSearch}
+        configure={configure}
+        setTabValue={setTabValue}
+      />
       <CreateForm onAdd={addField} />
       <TabList
         tabValue={tabValue}
@@ -71,15 +75,12 @@ const Manager = (props: any) => {
         configure={configure}
         setConfigure={setConfigure}
       />
-      {configure.sections.length !== 0 ? configure.sections.map((s: any, i: any) => {
+      {configure.sections.length !== 0 ? configure.sections.map((s: Section, i: number) => {
         return (
           <>
             {tabValue === i && <Section
               {...s}
               term={term}
-              tabValue={tabValue}
-              configure={configure}
-              setConfigure={setConfigure}
             />}
           </>
         )

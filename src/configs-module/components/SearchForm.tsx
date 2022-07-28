@@ -1,7 +1,6 @@
-import { Box } from '@mui/material';
+import { Box, ListItem, ListItemText, TextField } from '@mui/material';
 import { alpha, styled, Typography } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -11,20 +10,9 @@ const Search = styled('div')(({ theme }) => ({
         backgroundColor: alpha(theme.palette.primary.dark, 0.75),
     },
     marginLeft: 0,
-    width: '20%',
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(TextField)(({ theme }) => ({
     color: 'white',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -43,23 +31,62 @@ const Header = {
     bgcolor: 'primary.main',
 }
 
-const SearchForm = (props: { handleUpdateSearch: any }) => {
+const SearchForm = ({ handleUpdateSearch, configure, setTabValue }: { handleUpdateSearch: Function, configure: Config, setTabValue: Function }) => {
 
-    const handleUpdateSearch = (e: any) => {
-        props.handleUpdateSearch(e.target.value)
+    const handleUpdate = (value: string) => {
+        handleUpdateSearch(value)
     }
+
+    const changeSection = (_id: string) => {
+        //eslint-disable-next-line
+        configure.sections.map((s: Section, i: number) => {
+            //eslint-disable-next-line
+            s.fields.map((f: Field) => {
+                if (Object.values(f).includes(_id)) {
+                    setTabValue(i)
+                }
+            })
+        })
+    }
+
+    const options = [].concat.apply([], configure.sections.map((s: any) => {
+        return s.fields.map((f: Field) => {
+            return { ...f, sectionName: s.name };
+        });
+    }));
 
     return (
         <Box sx={Header}>
-            <Search onChange={handleUpdateSearch}>
-                <SearchIconWrapper>
-                    <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                />
-            </Search>
+            <Autocomplete
+                freeSolo
+                size='small'
+                sx={{ width: 250 }}
+                options={options}
+                getOptionLabel={(option) => option.name}
+                onChange={(event, value) => handleUpdate(value.name)}
+                renderOption={(props: Object, option: any) => (
+                    <li {...props}>
+                        <ListItem sx={{ height: 35, pl: 0 }} onClick={() => changeSection(option._id)}>
+                            <ListItemText
+                                primary={option.name}
+                                secondary={option.sectionName}
+                            />
+                        </ListItem>
+                    </li>
+                )}
+                renderInput={(params) => (
+                    <Search onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUpdate(e.target.value)}>
+                        <StyledInputBase
+                            placeholder="Search…"
+                            {...params}
+                            InputProps={{
+                                'aria-label': 'search',
+                                ...params.InputProps,
+                            }}
+                        />
+                    </Search>
+                )}
+            />
             <Typography variant="h5" color='common.white'>
                 Configuration Manager
             </Typography>

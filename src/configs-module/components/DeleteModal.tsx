@@ -39,8 +39,8 @@ const ModalWarningText = styled(Typography)(({ theme }) => ({
     fontSize: 25
 }))
 
-const DeleteModal = (props: any) => {
-    const { open, onClose, onDelete } = props
+const DeleteModal = ({ open, onClose, onDelete }: { open: boolean, onClose: React.ReactEventHandler, onDelete: React.ReactEventHandler }) => {
+
     return (
         <div>
             <Modal
