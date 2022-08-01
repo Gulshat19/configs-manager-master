@@ -1,6 +1,10 @@
-import TypeSelect from './TypeSelect';
-import { alpha, Button, Divider, styled, TextField, Typography } from '@mui/material';
+import { alpha, Button, Divider, MenuItem, styled, TextField, Typography } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import { useState } from 'react';
+import types from './data/types';
+
 
 const FormTextField = styled(TextField)(({ theme }) => ({
     width: '35ch'
@@ -30,23 +34,24 @@ const Form = styled('form')(({ theme }) => ({
 }))
 
 const CreateForm = ({ onAdd }: { onAdd: Function }) => {
-    const [name, setName] = useState('');
-    const [value, setValue] = useState('');
-    const [type, setType] = useState('');
+    const [field, setField] = useState({ name: '', value: '', type: '' });
 
-    const onTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setType(e.target.value);
-    };
+    const menuTypes = types.map((item, i) => {
+        return <MenuItem value={item.type} key={i}>{item.type}</MenuItem>
+    })
 
     const onSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        onAdd(name, value, type);
-        setName('');
-        setValue('');
+        onAdd(field.name, field.value, field.type);
+        setField({
+            name: '',
+            value: '',
+            type: ''
+        })
     }
 
     const setInputProp = () => {
-        switch (type) {
+        switch (field.type) {
             case 'string':
                 return 'string'
             case 'number':
@@ -70,19 +75,31 @@ const CreateForm = ({ onAdd }: { onAdd: Function }) => {
                 variant="outlined"
                 required
                 autoComplete='off'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={field.name}
+                onChange={(e) => setField({ ...field, name: e.target.value })}
             />
             <FormTextField
-                label={type === "Date" ? "" : "Field value"}
+                label={field.type === "Date" ? "" : "Field value"}
                 variant="outlined"
                 required
                 autoComplete='off'
-                value={value}
+                value={field.value}
                 inputProps={{ type: inputProp }}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => setField({ ...field, value: e.target.value })}
             />
-            <TypeSelect type={type} onTypeChange={onTypeChange} />
+            <FormControl fullWidth sx={{ width: '35ch' }}>
+                <InputLabel>
+                    Select field type
+                </InputLabel>
+                <Select
+                    value={field.type}
+                    label="Select field ty."
+                    required
+                    onChange={(e) => setField({ ...field, type: e.target.value })}
+                >
+                    {menuTypes}
+                </Select>
+            </FormControl>
             <FormButton variant='contained' type='submit' >
                 Create
             </FormButton>

@@ -48,6 +48,7 @@ const TabEdit = ({ setConfigure, configure }: { setConfigure: Function, configur
                     <EditTabIconButton
                         aria-label="delete"
                         size="medium"
+                        disabled={configure.sections.length ? false : true}
                         {...bindTrigger(popupState)}
                     >
                         <EditIcon />

@@ -8,6 +8,7 @@ import {
     TableBody,
     Table,
     styled,
+    Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import Field from './Field';
@@ -15,7 +16,6 @@ import Field from './Field';
 const Wrapper = {
     display: 'flex',
     alignItems: 'flex-start',
-    flexDirection: 'column',
     ml: 2
 }
 
@@ -31,10 +31,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
-    borderBottom: `5px solid ${theme.palette.primary.dark}`
+    borderBottom: `5px solid ${theme.palette.primary.dark}`,
 }));
 
-const Section = ({ fields, term }: { fields: Field[], term: string }) => {
+const NoElements = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '125ch',
+    height: '50ch',
+    borderRadius: '15px',
+    margin: '0 10px',
+    boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;'
+}));
+
+const Section = ({ fields, term, searchConfig }: { fields: Field[], term: string, searchConfig: Function }) => {
     const [customFields, setCustomFields] = useState(fields);
 
     const onChangeProp = (_id: string, prop: string, value: any) => {
@@ -51,16 +62,6 @@ const Section = ({ fields, term }: { fields: Field[], term: string }) => {
         setCustomFields(customFields.filter((f: Field) => f._id !== _id));
     }
 
-    const searchConfig = (items: Field[], term: string) => {
-        if (term.length === 0) {
-            return items;
-        }
-
-        return items.filter((item: Field) => {
-            return item.name.indexOf(term) > -1
-        })
-    }
-
     const visibleData = searchConfig(customFields, term);
 
     const elements = visibleData.map((f: Field) => {
@@ -74,6 +75,10 @@ const Section = ({ fields, term }: { fields: Field[], term: string }) => {
             />
         )
     })
+
+    if (elements.length === 0) {
+        return <NoElements>No items added yet, use the form to add them</NoElements>
+    }
 
     return (
         <Box sx={Wrapper}>
@@ -94,7 +99,7 @@ const Section = ({ fields, term }: { fields: Field[], term: string }) => {
                         </TableRow>
                     </StyledTableHead>
                     <TableBody>
-                        {customFields.length !== 0 ? elements : <TableRow>No items added yet, use the form to add them</TableRow>}
+                        {elements}
                     </TableBody>
                 </Table>
             </TableContainer>

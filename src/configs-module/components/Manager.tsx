@@ -20,12 +20,6 @@ const NoSectionsContainer = styled(Container)(({ theme }) => ({
   boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;'
 }))
 
-const NoSectionsText = styled(Typography)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}))
-
 const MiniAddIcon = styled(AddIcon)(({ theme }) => ({
   fontSize: 23,
   padding: '3px',
@@ -57,6 +51,16 @@ const Manager = (props: any) => {
     });
   }
 
+  const searchConfig = (items: Field[], term: string) => {
+    if (term.length === 0) {
+      return items;
+    }
+
+    return items.filter((item: Field) => {
+      return item.name.toLowerCase().includes(term.toLowerCase());
+    })
+  }
+
   const handleUpdateSearch = (term: string) => {
     setTerm(term);
   }
@@ -75,20 +79,21 @@ const Manager = (props: any) => {
         configure={configure}
         setConfigure={setConfigure}
       />
-      {configure.sections.length !== 0 ? configure.sections.map((s: Section, i: number) => {
-        return (
-          <>
-            {tabValue === i && <Section
-              {...s}
-              term={term}
-            />}
-          </>
-        )
-      }) : <NoSectionsContainer>
-        <NoSectionsText variant="overline">
+      {configure.sections.length
+        ? configure.sections.map((s: Section, i: number) => {
+          return (
+            <>
+              {tabValue === i && <Section
+                {...s}
+                term={term}
+                searchConfig={searchConfig}
+              />}
+            </>
+          )
+        }) :
+        <NoSectionsContainer>
           Click on the {<MiniAddIcon />} button to add the first section
-        </NoSectionsText>
-      </NoSectionsContainer>}
+        </NoSectionsContainer>}
 
     </div>
   );

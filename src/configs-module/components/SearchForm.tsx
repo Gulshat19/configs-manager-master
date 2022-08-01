@@ -12,7 +12,7 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: 0,
 }));
 
-const StyledInputBase = styled(TextField)(({ theme }) => ({
+const SearchInputBase = styled(TextField)(({ theme }) => ({
     color: 'white',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -76,7 +76,7 @@ const SearchForm = ({ handleUpdateSearch, configure, setTabValue }: { handleUpda
                 )}
                 renderInput={(params) => (
                     <Search onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUpdate(e.target.value)}>
-                        <StyledInputBase
+                        <SearchInputBase
                             placeholder="Search…"
                             {...params}
                             InputProps={{

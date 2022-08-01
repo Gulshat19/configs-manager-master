@@ -40,6 +40,7 @@ const TabAdd = ({ setConfigure, configure }: { setConfigure: Function, configure
         setConfigure({
             sections: [...configure.sections, newSection]
         });
+        setSectionName('');
     }
 
     return (
@@ -69,6 +70,7 @@ const TabAdd = ({ setConfigure, configure }: { setConfigure: Function, configure
                             label="Section name..."
                             size='small'
                             variant="filled"
+                            value={sectionName}
                             onChange={handleTabChange}
                         />
                         <AddTabButton
