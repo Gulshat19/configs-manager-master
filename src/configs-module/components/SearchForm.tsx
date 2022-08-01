@@ -26,7 +26,7 @@ const Header = {
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
-    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 0px 15px',
+    boxShadow: 3,
     p: 2,
     bgcolor: 'primary.main',
 }
@@ -43,7 +43,7 @@ const SearchForm = ({ handleUpdateSearch, configure, setTabValue }: { handleUpda
             //eslint-disable-next-line
             s.fields.map((f: Field) => {
                 if (Object.values(f).includes(_id)) {
-                    setTabValue(i)
+                    setTabValue(i);
                 }
             })
         })
@@ -66,7 +66,7 @@ const SearchForm = ({ handleUpdateSearch, configure, setTabValue }: { handleUpda
                 onChange={(event, value) => handleUpdate(value.name)}
                 renderOption={(props: Object, option: any) => (
                     <li {...props}>
-                        <ListItem sx={{ height: 35, pl: 0 }} onClick={() => changeSection(option._id)}>
+                        <ListItem key={option._id} sx={{ height: 0, p: 2.5 }} onClick={() => changeSection(option._id)}>
                             <ListItemText
                                 primary={option.name}
                                 secondary={option.sectionName}

@@ -80,7 +80,7 @@ const Section = ({ fields, term }: { fields: Field[], term: string }) => {
             <TableContainer
                 sx={{
                     width: '125ch',
-                    boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;'
+                    boxShadow: 2
                 }}
                 component={Paper}
             >

@@ -2,8 +2,6 @@ import TypeSelect from './TypeSelect';
 import { alpha, Button, Divider, styled, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 
-import './style/CreateForm.css';
-
 const FormTextField = styled(TextField)(({ theme }) => ({
     width: '35ch'
 }));
@@ -15,6 +13,20 @@ const FormTypography = styled(Typography)(({ theme }) => ({
 
 const FormButton = styled(Button)(({ theme }) => ({
     width: '40ch'
+}))
+
+const Form = styled('form')(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-around",
+    float: "right",
+    width: "50vh",
+    height: "65vh",
+    padding: "10px",
+    backgroundColor: "#fff",
+    borderRadius: "12px",
+    margin: "80px 20px",
 }))
 
 const CreateForm = ({ onAdd }: { onAdd: Function }) => {
@@ -48,7 +60,7 @@ const CreateForm = ({ onAdd }: { onAdd: Function }) => {
     const inputProp = setInputProp();
 
     return (
-        <form className='create-form' onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} sx={{ boxShadow: 2 }}>
             <FormTypography variant="h6">
                 CREATE FIELD
                 <Divider sx={{ width: '28ch', mt: 1.5 }} />
@@ -74,7 +86,7 @@ const CreateForm = ({ onAdd }: { onAdd: Function }) => {
             <FormButton variant='contained' type='submit' >
                 Create
             </FormButton>
-        </form>
+        </Form>
     )
 }
 
